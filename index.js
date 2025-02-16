@@ -9,14 +9,37 @@ const AutoAuth = require('mineflayer-auto-auth');
 const app = express();
 app.use(express.json());
 
-app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
-app.listen(process.env.PORT);
+app.get("/", (_, res) => res.send("Bot está rodando! 🚀"));
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`)); // Mensagem de console quando o bot estiver online
 
 setInterval(() => {
-  console.log("⏳ Mantendo o processo ativo...");
+  console.log("⏳ Mantendo o processo ativo...")
 }, 224000);
 
 let bot;
+
+function getRandomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+function moveRandomly() {
+  if (!bot || !bot.entity) return;
+
+  const directions = ['forward', 'back', 'left', 'right'];
+  const randomDirection = directions[getRandomInt(0, directions.length - 1)];
+
+  bot.setControlState(randomDirection, true);
+  setTimeout(() => {
+    bot.setControlState(randomDirection, false);
+  }, getRandomInt(1000, 3000)); // Movimenta por 1 a 3 segundos
+
+  console.log(`🟢 Movendo aleatoriamente para evitar kick: ${randomDirection}`);
+
+  // Define um tempo aleatório para o próximo movimento (entre 1 e 3 minutos)
+  const nextMove = getRandomInt(60000, 180000);
+  setTimeout(moveRandomly, nextMove);
+}
 
 function createBot() {
   if (bot) {
@@ -29,7 +52,7 @@ function createBot() {
   bot = mineflayer.createBot({
     host: 'joaoemaanoel-PJfk.aternos.me',
     version: false, // Defina a versão se necessário, ex: '1.16.5'
-    username: 'oi',
+    username: 'Inscrevase',
     port: 29848,
     plugins: [AutoAuth],
     AutoAuth: 'bot112022'
@@ -41,6 +64,7 @@ function createBot() {
 
   bot.on('login', () => {
     console.log("✅ Bot entrou no servidor!");
+    setTimeout(moveRandomly, getRandomInt(60000, 180000)); // Inicia os movimentos aleatórios após login
   });
 
   bot.on('chat', (username, message) => {
@@ -73,15 +97,6 @@ function createBot() {
     bot = null;
     setTimeout(createBot, 60000);
   });
-
-  // Simula movimentação para evitar kick
-  setInterval(() => {
-    if (bot && bot.entity) {
-      console.log("🟢 Movendo para evitar kick...");
-      bot.setControlState('jump', true);
-      setTimeout(() => bot.setControlState('jump', false), 500);
-    }
-  }, 60000);
 }
 
 // Iniciar o bot apenas se não estiver rodando
