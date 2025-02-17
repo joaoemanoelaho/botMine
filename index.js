@@ -21,7 +21,7 @@ setInterval(() => {
 setInterval(() => {
   http.get("https://bot-mine-44hjmdptb-joaoemanoelahos-projects.vercel.app");
   console.log("Mantendo a instância ativa...");
-}, 12000); // Ping a cada 2 minutos	
+}, 3000); // Ping a cada 2 minutos	
 
 
 
