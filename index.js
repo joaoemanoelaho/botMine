@@ -52,7 +52,7 @@ function createBot() {
   bot = mineflayer.createBot({
     host: 'joaoemaanoel-PJfk.aternos.me',
     version: false, // Defina a versão se necessário, ex: '1.16.5'
-    username: 'Inscrevase',
+    username: `Bot_${getRandomInt(1000, 9999)}`,
     port: 29848,
     plugins: [AutoAuth],
     AutoAuth: 'bot112022'
