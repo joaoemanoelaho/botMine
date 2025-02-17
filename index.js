@@ -18,13 +18,6 @@ setInterval(() => {
   console.log("Mantendo a instância ativa...");
 }, 600000); // Ping a cada 10 minutos
 
-setInterval(() => {
-  http.get("https://bot-mine-44hjmdptb-joaoemanoelahos-projects.vercel.app");
-  console.log("Mantendo a instância ativa...");
-}, 3000); // Ping a cada 2 minutos	
-
-
-
 let bot;
 
 function getRandomInt(min, max) {
