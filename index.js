@@ -14,8 +14,9 @@ const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`)); // Mensagem de console quando o bot estiver online
 
 setInterval(() => {
-  console.log("⏳ Mantendo o processo ativo...")
-}, 224000);
+  http.get("https://mixed-rhianna-fgdt-ded50c23.koyeb.app/");
+  console.log("Mantendo a instância ativa...");
+}, 600000); // Ping a cada 5 minutos
 
 let bot;
 
