@@ -13,10 +13,16 @@ app.get("/", (_, res) => res.send("Bot está rodando! 🚀"));
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`)); // Mensagem de console quando o bot estiver online
 
+const https = require("https"); // Importa o módulo correto
+
 setInterval(() => {
-  http.get("https://mixed-rhianna-fgdt-ded50c23.koyeb.app/");
-  console.log("Mantendo a instância ativa...");
-}, 600000); // Ping a cada 10 minutos
+  https.get("https://mixed-rhianna-fgdt-ded50c23.koyeb.app/", (res) => {
+    console.log(`🔄 Mantendo a instância ativa... Status Code: ${res.statusCode}`);
+  }).on("error", (err) => {
+    console.error("❌ Erro ao pingar o servidor:", err.message);
+  });
+}, 600000); // Ping a cada 10 minutos (600000ms)
+
 
 let bot;
 
