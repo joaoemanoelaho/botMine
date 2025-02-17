@@ -16,7 +16,14 @@ app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`)); // Men
 setInterval(() => {
   http.get("https://mixed-rhianna-fgdt-ded50c23.koyeb.app/");
   console.log("Mantendo a instância ativa...");
-}, 600000); // Ping a cada 5 minutos
+}, 600000); // Ping a cada 10 minutos
+
+setInterval(() => {
+  http.get("https://bot-mine-44hjmdptb-joaoemanoelahos-projects.vercel.app");
+  console.log("Mantendo a instância ativa...");
+}, 12000); // Ping a cada 2 minutos	
+
+
 
 let bot;
 
