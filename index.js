@@ -12,25 +12,34 @@ app.use(express.json());
 
 app.get("/", (_, res) => res.send("Bot está rodando! 🚀"));
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`)); // Mensagem de console quando o bot estiver online
+app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
-// Mantém a instância ativa no Koyeb
+// Mantém a instância ativa no Koyeb a cada 5 minutos
 setInterval(() => {
   https.get("https://mixed-rhianna-fgdt-ded50c23.koyeb.app/", (res) => {
     console.log(`🔄 Mantendo a instância ativa... Status Code: ${res.statusCode}`);
   }).on("error", (err) => {
     console.error("❌ Erro ao pingar o servidor:", err.message);
   });
-}, 600000); // Ping a cada 10 minutos (600000ms)
+}, 300000); // Ping a cada 5 minutos (300000ms)
+
+// Mantém a instância ativa no Koyeb a cada 5 minutos
+setInterval(() => {
+  https.get("https://app.koyeb.com/services/e73174d7-71dc-463a-9a00-6d0220a56d7e?deploymentId=a90cfcc3-41e5-4384-879e-b0916b9e379a", (res) => {
+    console.log(`🔄 Mantendo a instância ativa... Status Code: ${res.statusCode}`);
+  }).on("error", (err) => {
+    console.error("❌ Erro ao pingar o servidor:", err.message);
+  });
+}, 3000);  
 
 let bot;
 
-// Função para gerar um tempo aleatório entre min e max
+// Função para gerar um número aleatório entre min e max
 function getRandomInt(min, max) {
   return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
-// Função para movimentação com paradas aleatórias
+// Movimentação aleatória com paradas variáveis
 function moveRandomly() {
   if (!bot || !bot.entity) return;
 
@@ -47,16 +56,17 @@ function moveRandomly() {
     bot.setControlState(randomDirection, false);
     console.log(`⏸️ Parando por ${stopDuration / 1000} segundos`);
 
-    // Espera o tempo de parada antes de se mover novamente
+    // Aguarda antes de voltar a se mover
     setTimeout(moveRandomly, stopDuration);
   }, moveDuration);
 }
 
-// Função para criar o bot
+// Criação do bot garantindo que apenas um esteja rodando
 function createBot() {
   if (bot) {
-    console.log("🔄 O bot já está conectado, não será recriado.");
-    return;
+    console.log("🔄 Desconectando bot antigo antes de criar um novo...");
+    bot.quit(); // Desconecta o bot anterior antes de criar um novo
+    bot = null;
   }
 
   console.log("🟢 Criando e conectando o bot...");
@@ -94,18 +104,21 @@ function createBot() {
 
   bot.on('kicked', (reason) => {
     console.log(`❌ Bot foi expulso: ${reason}`);
+    bot.quit(); // Garante que o bot antigo saia
     bot = null;
-    setTimeout(createBot, 60000); // Aguarda 1 minuto antes de tentar reconectar
+    setTimeout(createBot, 60000); // Aguarda 1 minuto antes de reconectar
   });
 
   bot.on('error', (err) => {
     console.log("⚠️ Erro detectado:", err);
+    bot.quit(); // Garante que o bot antigo saia
     bot = null;
     setTimeout(createBot, 60000);
   });
 
   bot.on('end', () => {
     console.log("🔄 Bot desconectado! Tentando reconectar em 1 minuto...");
+    bot.quit(); // Garante que o bot antigo saia
     bot = null;
     setTimeout(createBot, 60000);
   });
