@@ -9,7 +9,9 @@ const AutoAuth = require('mineflayer-auto-auth');
 const app = express();
 app.use(express.json());
 
-app.get("/", (_, res) => res.send("Bot está rodando! 🚀"));
+// Servir a página index.html
+app.get("/", (_, res) => res.sendFile(__dirname + "/index.html"));
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Servidor rodando na porta ${PORT}`));
 
@@ -56,7 +58,7 @@ function createBot() {
   console.log("🟢 Criando e conectando o bot...");
   bot = mineflayer.createBot({
     host: 'joaoemaanoel-PJfk.aternos.me',
-    version: '1.20.1', // Defina a versão exata do seu servidor
+    version: '1.21', // Defina a versão exata do seu servidor
     username: `Bot_${getRandomInt(1000, 9999)}`,
     port: 29848,
     plugins: [AutoAuth],

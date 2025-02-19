@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <div class="dashboard">
+      <header>
+        <h1>Bot Dashboard</h1>
+      </header>
+      <section class="stats">
+        <div class="stat">
+          <h2>Total Messages</h2>
+          <p>1234</p>
+        </div>
+        <div class="stat">
+          <h2>Active Users</h2>
+          <p>567</p>
+        </div>
+        <div class="stat">
+          <h2>Commands Processed</h2>
+          <p>890</p>
+        </div>
+      </section>
+      <section class="logs">
+        <h2>Recent Logs</h2>
+        <ul>
+          <li>User1: Command1</li>
+          <li>User2: Command2</li>
+          <li>User3: Command3</li>
+        </ul>
+      </section>
+    </div>
+    <style>
+      .dashboard {
+        font-family: Arial, sans-serif;
+        padding: 20px;
+      }
+      header {
+        text-align: center;
+        margin-bottom: 20px;
+      }
+      .stats {
+        display: flex;
+        justify-content: space-around;
+        margin-bottom: 20px;
+      }
+      .stat {
+        background-color: #f0f0f0;
+        padding: 10px;
+        border-radius: 5px;
+        text-align: center;
+      }
+      .logs {
+        background-color: #f9f9f9;
+        padding: 10px;
+        border-radius: 5px;
+      }
+      .logs ul {
+        list-style-type: none;
+        padding: 0;
+      }
+      .logs li {
+        background-color: #e0e0e0;
+        margin: 5px 0;
+        padding: 5px;
+        border-radius: 3px;
+      }
+    </style>
+
+    <script>
+      // Simula atividade do usuário a cada 30 segundos
+      setInterval(() => {
+        document.dispatchEvent(new Event("mousemove"));
+        console.log("Mantendo página ativa...");
+      }, 30000);
+
+      // Simula um pequeno scroll para evitar inatividade
+      setInterval(() => {
+        window.scrollBy(0, 1);
+        window.scrollBy(0, -1);
+        console.log("Página ativa...");
+      }, 30000);
+    </script>
+  </body>
+</html>
